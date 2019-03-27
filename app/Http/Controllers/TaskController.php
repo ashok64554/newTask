@@ -16,14 +16,17 @@ class TaskController extends Controller
 	public function task1()
 	{
 		$uuid='f43fdk-34390fg-4545kf-5545'; // John Due uuid Given
-		$worker_id=User::select('id')->where('uuid',$uuid)->first();
-		$ListofPosting=PostingWorker::join('postings', function ($join) {
+		$worker_id=User::select('id')->where('uuid',$uuid)->first()->id;
+		/*$ListofPosting=PostingWorker::join('postings', function ($join) {
 	        $join->on('posting_workers.posting_id', '=', 'postings.id');
 	    })
 	    ->where('posting_workers.worker_id',$worker_id->id)
 		->where('posting_workers.status','matched') // john Due Matched
 		->where('postings.status','done') //  Posting Status Done
-		->get();
+		->get();*/
+       // New
+
+		$ListofPosting=PostingWorker::whereHas('getPostingDone')->where('worker_id',$worker_id)->where('status','matched')->get();
 		return view('task1',compact('ListofPosting'));
 
 	}
@@ -31,11 +34,14 @@ class TaskController extends Controller
 	public function task2()
 	{
 		$uuid='f43fdk-34390fg-4545kf-5545'; // John Due uuid Given
-		$worker_id=User::select('id')->where('uuid',$uuid)->first();
+		$worker_id=User::select('id')->where('uuid',$uuid)->first()->id;
+		/*
 		$ListofPosting=PostingWorker::join('postings','posting_workers.posting_id','=','postings.id')
 		->where('posting_workers.worker_id',$worker_id->id)
 		->where('postings.status','available')// Posting Staus Availble
-		->get();
+		->get();*/
+		
+		$ListofPosting=PostingWorker::whereHas('getPostingAvail')->where('worker_id',$worker_id)->where('status','matched')->get();
 		return view('task2',compact('ListofPosting'));
 
 	}
