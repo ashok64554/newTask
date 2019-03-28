@@ -31,11 +31,12 @@ class TaskController extends Controller
 	public function task2(Request $request)
 	{
 		$uuid = 'f43fdk-34390fg-4545kf-5545';
-	    $ListofPosting= Posting::selectRaw('postings.*')->leftJoin('posting_workers', 'posting_workers.posting_id', '=', 'postings.id')
-       ->leftJoin('users', 'users.id', '=', 'posting_workers.worker_id')
-       ->where('users.uuid', $uuid)
-       ->where('postings.status', 'available')
-       ->get();
+	    $ListofPosting= Posting::whereNotIn('id', function ($query) use ($uuid) {
+        $query
+            ->select('posting_workers.posting_id')->from('posting_workers')
+            ->leftJoin('users', 'users.id', '=', 'posting_workers.worker_id')
+            ->leftJoin('postings', 'postings.id', '!=', 'posting_workers.posting_id')->where('users.uuid', $uuid);
+        })->get();
 
 	return view('task2',compact('ListofPosting'));
 	}
