@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use App\PostingWorker;
 class User extends Authenticatable
 {
     use Notifiable;
@@ -18,6 +18,14 @@ class User extends Authenticatable
     protected $fillable = [
         'uuid', 'first_name','last_name','email', 'password',
     ];
+
+
+
+
+     public function getPosting()
+    {
+        return $this->hasMany(PostingWorker::class, 'worker_id', 'id');
+    }
 
     /**
      * The attributes that should be hidden for arrays.

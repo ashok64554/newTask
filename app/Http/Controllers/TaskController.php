@@ -9,41 +9,75 @@ use App\Posting;
 use App\Expertise;
 use App\PostingExpertise;
 use App\PostingWorker;
-
+use DB;
 class TaskController extends Controller
 {
 	//Posting List where Posting  status done and user Matched
-	public function task1()
+	public function task1(Request $request)
 	{
-		$uuid='f43fdk-34390fg-4545kf-5545'; // John Due uuid Given
-		$worker_id=User::select('id')->where('uuid',$uuid)->first()->id;
-		/*$ListofPosting=PostingWorker::join('postings', function ($join) {
-	        $join->on('posting_workers.posting_id', '=', 'postings.id');
-	    })
-	    ->where('posting_workers.worker_id',$worker_id->id)
-		->where('posting_workers.status','matched') // john Due Matched
-		->where('postings.status','done') //  Posting Status Done
-		->get();*/
-       // New
 
-		$ListofPosting=PostingWorker::whereHas('getPostingDone')->where('worker_id',$worker_id)->where('status','matched')->get();
+		$whereRaw=$this->newQuery();
+		$query=Posting::whereRaw($whereRaw)->where('status','done');
+		$ListofPosting=$query->get();
 		return view('task1',compact('ListofPosting'));
 
 	}
 	//List of Posting Where User are  availble 
-	public function task2()
+	public function task2(Request $request)
 	{
-		$uuid='f43fdk-34390fg-4545kf-5545'; // John Due uuid Given
-		$worker_id=User::select('id')->where('uuid',$uuid)->first()->id;
-		/*
-		$ListofPosting=PostingWorker::join('postings','posting_workers.posting_id','=','postings.id')
-		->where('posting_workers.worker_id',$worker_id->id)
-		->where('postings.status','available')// Posting Staus Availble
-		->get();*/
-		
-		$ListofPosting=PostingWorker::whereHas('getPostingAvail')->where('worker_id',$worker_id)->where('status','matched')->get();
+		$whereRaw=$this->GetnewQuery();
+		$query=Posting::whereRaw($whereRaw)->where('status','available');
+		$ListofPosting=$query->get();
 		return view('task2',compact('ListofPosting'));
 
+	}
+	private function newQuery()
+	{
+		$w='';
+
+		$uuid='f43fdk-34390fg-4545kf-5545';
+		if($uuid !=''){
+			if ($w != '') {
+				$w = $w . ' AND ' . '(';
+			} else {
+				$w = '(';
+			}
+
+			$in =PostingWorker::select('posting_id')->where('status','matched')->where('worker_id',DB::raw("(SELECT id  FROM users
+				WHERE uuid = '".$uuid."')"))->get();
+
+
+			$h = '';
+			foreach ($in as $s) {
+				if ($h != '') { $h = $h . ' OR ';}
+				$h = $h . "id='" . $s->posting_id . "'";
+			}
+			$w = $w . $h . ')';
+		}
+		return($w);
+	}
+	private function GetnewQuery()
+	{
+		$w='';
+		$uuid='f43fdk-34390fg-4545kf-5545';
+		if($uuid !=''){
+			if ($w != '') {
+				$w = $w . ' AND ' . '(';
+			} else {
+				$w = '(';
+			}
+
+			$in =PostingWorker::select('posting_id')->where('worker_id',DB::raw("(SELECT id  FROM users
+				WHERE uuid = '".$uuid."')"))->get();
+
+			$h = '';
+			foreach ($in as $s) {
+				if ($h != '') { $h = $h . ' OR ';}
+				$h = $h . "id='" . $s->posting_id . "'";
+			}
+			$w = $w . $h . ')';
+		}
+		return($w);
 	}
 	// List of all Expertises
 	public function task3()

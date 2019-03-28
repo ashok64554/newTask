@@ -115,8 +115,8 @@
                                     <tr class="gradeU">
                                        
                                         <td>{!!$count!!}</td>
-                                        <td>{!!$rows->getPostingAvail->name!!}</td>
-                                        <td>{!!$rows->getPostingAvail->status!!}</td>
+                                        <td>{!!$rows->name!!}</td>
+                                        <td>{!!$rows->status!!}</td>
                                         <td>{!! date('d M Y', strtotime($rows->created_at))!!}</td>
                                         
                                     </tr>
