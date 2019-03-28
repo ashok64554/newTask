@@ -15,70 +15,32 @@ class TaskController extends Controller
 	//Posting List where Posting  status done and user Matched
 	public function task1(Request $request)
 	{
+        $uuid = 'f43fdk-34390fg-4545kf-5545';
+ 	    $ListofPosting= Posting::selectRaw('postings.*')->leftJoin('posting_workers', 'posting_workers.posting_id', '=', 'postings.id')
+       ->leftJoin('users', 'users.id', '=', 'posting_workers.worker_id')
+       ->where('posting_workers.status','matched')
+       ->where('users.uuid', $uuid)
+       ->where('postings.status', 'done')
+       ->get();
 
-		$whereRaw=$this->newQuery();
-		$query=Posting::whereRaw($whereRaw)->where('status','done');
-		$ListofPosting=$query->get();
+		
 		return view('task1',compact('ListofPosting'));
 
 	}
 	//List of Posting Where User are  availble 
 	public function task2(Request $request)
 	{
-		$whereRaw=$this->GetnewQuery();
-		$query=Posting::whereRaw($whereRaw)->where('status','available');
-		$ListofPosting=$query->get();
-		return view('task2',compact('ListofPosting'));
+		$uuid = 'f43fdk-34390fg-4545kf-5545';
+	    $ListofPosting= Posting::selectRaw('postings.*')->leftJoin('posting_workers', 'posting_workers.posting_id', '=', 'postings.id')
+       ->leftJoin('users', 'users.id', '=', 'posting_workers.worker_id')
+       ->where('users.uuid', $uuid)
+       ->where('postings.status', 'available')
+       ->get();
 
+	return view('task2',compact('ListofPosting'));
 	}
-	private function newQuery()
-	{
-		$w='';
-
-		$uuid='f43fdk-34390fg-4545kf-5545';
-		if($uuid !=''){
-			if ($w != '') {
-				$w = $w . ' AND ' . '(';
-			} else {
-				$w = '(';
-			}
-
-			$in =PostingWorker::select('posting_id')->where('status','matched')->where('worker_id',DB::raw("(SELECT id  FROM users
-				WHERE uuid = '".$uuid."')"))->get();
-
-
-			$h = '';
-			foreach ($in as $s) {
-				if ($h != '') { $h = $h . ' OR ';}
-				$h = $h . "id='" . $s->posting_id . "'";
-			}
-			$w = $w . $h . ')';
-		}
-		return($w);
-	}
-	private function GetnewQuery()
-	{
-		$w='';
-		$uuid='f43fdk-34390fg-4545kf-5545';
-		if($uuid !=''){
-			if ($w != '') {
-				$w = $w . ' AND ' . '(';
-			} else {
-				$w = '(';
-			}
-
-			$in =PostingWorker::select('posting_id')->where('worker_id',DB::raw("(SELECT id  FROM users
-				WHERE uuid = '".$uuid."')"))->get();
-
-			$h = '';
-			foreach ($in as $s) {
-				if ($h != '') { $h = $h . ' OR ';}
-				$h = $h . "id='" . $s->posting_id . "'";
-			}
-			$w = $w . $h . ')';
-		}
-		return($w);
-	}
+	
+	
 	// List of all Expertises
 	public function task3()
 	{
