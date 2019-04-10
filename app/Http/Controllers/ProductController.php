@@ -23,17 +23,17 @@ class ProductController extends Controller
             'description'  => 'required',
             'price'        => 'required|numeric',
         ]);
-          // First Query//
+          // First Query  Using Class and  Product and save() accepts a full Eloquent model instance In this all request parameters fetch by class Product(which is in Model Product) and save data using laravel save function//
         	$product= new Product;
         	$product->name 	  		= $request->name;
         	$product->description 	= $request->description;
         	$product->price 		= $request->price;
         	$product->save();
             
-          /*  // Seconf Type Query//
+          /* // Second Type Query  Model::create is a simple wrapper around $model = new MyModel(); $model->save() See the implementatio and $request->all() function fetch all post/get input of the form and data save Using Laravel create function
             $product = Product::create($request->all()); 
            
-           // Thirt Type Query//
+           // Thirt Type Query In this query we  create array of all form post data and save by using create function //
            $data = [
             'name'         => $request->name,
             'description'  => $request->description,
