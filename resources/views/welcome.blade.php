@@ -86,7 +86,8 @@
                            
                            
                                 <a class="nav-link" href="{{ route('task3') }}">Task3</a>
-                          
+
+                               <a class="nav-link" href="{{ route('product-list') }}">Product</a>
                            
                                 
                            

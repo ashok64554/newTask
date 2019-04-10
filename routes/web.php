@@ -17,6 +17,10 @@ Route::get('/', function () {
 Route::get('/task1', 'TaskController@task1')->name('task1');
 Route::get('/task2', 'TaskController@task2')->name('task2');
 Route::get('/task3', 'TaskController@task3')->name('task3');
+Route::get('/product-list', 'ProductController@productList')->name('product-list');
+Route::get('/add-product', 'ProductController@addProduct')->name('add-product');
+Route::post('/saveproduct', 'ProductController@saveproduct')->name('save-product');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

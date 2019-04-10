@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 27, 2019 at 09:12 AM
--- Server version: 10.1.35-MariaDB
--- PHP Version: 7.1.21
+-- Generation Time: Apr 10, 2019 at 10:51 AM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.1.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -36,16 +36,6 @@ CREATE TABLE `expertises` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `expertises`
---
-
-INSERT INTO `expertises` (`id`, `uuid`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'f43fdk-333ddf-4545kf-5545', 'Driver', '2019-03-25 13:00:00', NULL),
-(2, 'f432sfdk-333ddf-4545kf-5545', 'BarTender', '2019-03-25 13:00:00', NULL),
-(3, 'f43fdk-343490fg-4545kf-55343', 'Managment', '2019-03-19 13:00:00', NULL),
-(5, 'f43fddfk-34390fg-4545kf-5545', 'Attender', NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -66,9 +56,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2014_10_12_000000_create_users_table', 1),
 (2, '2014_10_12_100000_create_password_resets_table', 1),
 (3, '2019_03_26_114621_create_postings_table', 1),
-(14, '2019_03_26_114726_create_posting_workers_table', 2),
-(15, '2019_03_26_114805_create_expertises_table', 2),
-(16, '2019_03_27_080653_create_posting_expertises_table', 2);
+(4, '2019_03_26_114726_create_posting_workers_table', 1),
+(5, '2019_03_26_114805_create_expertises_table', 1),
+(6, '2019_03_27_080653_create_posting_expertises_table', 1),
+(7, '2019_04_10_074930_create_products_table', 2);
 
 -- --------------------------------------------------------
 
@@ -97,17 +88,6 @@ CREATE TABLE `postings` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `postings`
---
-
-INSERT INTO `postings` (`id`, `uuid`, `name`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'f43fdk-34390fg-4545kf-55451', 'Bentree Hotel', 'done', '2019-03-25 18:30:00', NULL),
-(2, 'f43fdk-324390fg-4545kf-5545', 'Big Bar', 'done', '2019-03-25 18:30:00', NULL),
-(3, 'f43fdk-34390fg-4545kf-554514', 'Safina', 'available', '2019-03-25 18:30:00', NULL),
-(4, 'f43fdk-34390fg-4545kf-554541', 'Silvatsa', 'available', '2019-03-25 18:30:00', NULL),
-(5, 'f43fdk-343903fg-4545kf-5545', 'American Tour', 'available', '2019-03-25 18:30:00', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -122,20 +102,6 @@ CREATE TABLE `posting_expertises` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `posting_expertises`
---
-
-INSERT INTO `posting_expertises` (`id`, `uuid`, `posting_id`, `expertise_id`, `created_at`, `updated_at`) VALUES
-(1, 'f43fdk-343905fdg-4545kf-5545', 1, 3, '2019-03-25 13:00:00', NULL),
-(2, 'f43fdek-343904fdg-4545kf-5545', 2, 2, '2019-03-26 13:00:00', NULL),
-(3, 'f43fdek-343950fdg-4545kf-5545', 3, 2, '2019-03-17 13:00:00', NULL),
-(4, 'f43fdek-343950fdg-4545kf-5545', 3, 3, '2019-03-25 13:00:00', NULL),
-(5, 'f43fdek-343950fdg-4545kf-5545', 1, 3, '2019-03-25 13:00:00', NULL),
-(6, 'f43fdek-343950fdg-4545kf-55451', 1, 1, '2019-03-26 13:00:00', NULL),
-(7, 'f4d3fdk-34390fg-4545kf-5545', 1, 5, '2019-03-25 18:30:00', NULL),
-(8, 'f43fde22k-34390fdg-4545kf-5545', 2, 5, '2019-03-24 18:30:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -153,15 +119,33 @@ CREATE TABLE `posting_workers` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `posting_workers`
+-- Table structure for table `products`
 --
 
-INSERT INTO `posting_workers` (`id`, `uuid`, `worker_id`, `posting_id`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'f43fdk-34390fdg-4545kf-5545', 1, 1, 'matched', '2019-03-25 13:00:00', NULL),
-(2, 'f43fdk-343903fg-4545kf-55343', 1, 2, 'matched', '2019-03-25 13:00:00', NULL),
-(3, 'f43fdk-343903fg-45345kf-55343', 1, 3, 'matched', '2019-03-25 13:00:00', NULL),
-(4, 'f43fdk2-343903fg-45345kf-55343', 1, 4, 'matched', '2019-03-25 13:00:00', NULL);
+CREATE TABLE `products` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` double(10,2) NOT NULL,
+  `status` enum('1','0') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1' COMMENT '1:Active, 0:Inactive',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `name`, `description`, `price`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'AELO Men\'s Cotton T Shirt-(Amt1072-Pn_White)', 'Fit Type: Regular Fit\r\n100% Cotton premium fabric, Plain white\r\nHalf Sleeves, Round neck\r\nRegular fit, Casual T-Shirt\r\nThis new trendy t shirt has stylish color which will add value to your look whether you are suiting up for a party or going out for gym. This designer t shirt for men from our latest collection is sure to find place in your wardrobe this summer.\r\nCare instruction : Wash separatel', 399.00, '1', '2019-04-10 03:10:56', '2019-04-10 03:10:56'),
+(2, 'Katso Men\'s Cotton T-Shirt (Pack Of 1) (Katso-Hood-Full)', 'Katso Men\'s Cotton T-Shirt (Pack Of 1) (Katso-Hood-Full)', 288.00, '1', '2019-04-10 03:11:40', '2019-04-10 03:11:40'),
+(3, 'Seven Rocks Regular Fit Men\'s Cotton T-Shirt (T16)', 'Fit Type: Regular Fit\r\nDesigner Waist Coat Style Tshirt with contrasting colors\r\nSoft flow dyed 60% Cotton, 40% Polyester\r\nFabric Gsm Is 190\r\nComfortable Regular Fit\r\nMachine wash Cold', 599.00, '1', '2019-04-10 03:13:25', '2019-04-10 03:13:25'),
+(4, 'Urbano Fashion Men\'s Black, Grey, Yellow Round Neck Full Sleeve T-Shirt', 'Care Instructions: Wash with similar colors\r\nFit Type: Slim Fit\r\nMaterial: 100% Cotton; Care Instructions: Wash with similar colors\r\nColor: Black, Yellow, Grey\r\nNeck Type: Round Neck; Sleeve Type: Full Sleeve\r\nPackage Contents: 1 T-Shirt; Occasion: Casual; Other Features: Slim Fit\r\nNote: Imperial Clothing Company is the only manufacturer and authorized retailer of brand Urbano Fashion. Please check seller name before purchase.', 345.00, '1', '2019-04-10 03:14:45', '2019-04-10 03:14:45'),
+(5, 'EYEBOGLER Regular Fit Men\'s Cotton T-Shirt', 'EYEBOGLER Regular Fit Men\'s Cotton T-Shirt', 370.00, '1', '2019-04-10 03:18:54', '2019-04-10 03:18:54'),
+(6, 'Ezellohub® Valentine Day Apna Time Aayega Printed Round Nec', 'Ezellohub® Valentine Day Apna Time Aayega Printed Round Neck & Half Sleev White T-Shirt for Boys/Men/Brother/Friends/Boy Friend', 299.00, '1', '2019-04-10 03:19:26', '2019-04-10 03:19:26');
 
 -- --------------------------------------------------------
 
@@ -171,7 +155,7 @@ INSERT INTO `posting_workers` (`id`, `uuid`, `worker_id`, `posting_id`, `status`
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `first_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -180,14 +164,6 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `uuid`, `first_name`, `last_name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'f43fdk-34390fg-4545kf-5545', 'john', 'Doe', 'john@gmail.com', '$2y$10$y/NUSC3o.9Vy4zADNi18lehr5FISEQJlOlCMmX4kQ/yYGEFBDisKq', NULL, NULL, NULL),
-(2, 'f43fdk-34390fg-4545kf-55343', 'David', 'Luis', 'david@gmail.com', '$2y$10$y/NUSC3o.9Vy4zADNi18lehr5FISEQJlOlCMmX4kQ/yYGEFBDisKq', NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -234,6 +210,13 @@ ALTER TABLE `posting_workers`
   ADD KEY `posting_workers_posting_id_foreign` (`posting_id`);
 
 --
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `products_name_unique` (`name`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -248,37 +231,43 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `expertises`
 --
 ALTER TABLE `expertises`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `postings`
 --
 ALTER TABLE `postings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `posting_expertises`
 --
 ALTER TABLE `posting_expertises`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `posting_workers`
 --
 ALTER TABLE `posting_workers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
